@@ -21,12 +21,16 @@ v22.19.0, pnpm 12.18.0, TypeScript 5.9.3, NestJS 11, Next.js 15.5.29.
 
 ## S1 — Skeleton, config, health, compose, CI (M0)
 
-- [ ] Nest app with config validation, request ids, exception envelope
-- [ ] Drizzle schema + first migration; compose postgres/redis with reserved ports
-- [ ] CI: tsc, eslint, vitest, docker build
-- [ ] `/healthz`, `/readyz`, pino, metrics
+- [x] Nest app with config validation, request ids, exception envelope
+- [x] Drizzle schema + first migration; compose postgres/redis with reserved ports
+- [x] CI: tsc, eslint, vitest, docker build
+- [x] `/healthz`, `/readyz`, pino, metrics
 
-**Gate evidence:** _pending_
+**Gate evidence:** `docker compose -f infra/docker-compose.yml up -d --build` brought
+postgres, redis, and api healthy. Observed: `/healthz` -> `{"status":"ok"}`; `/readyz` ->
+`{"status":"ok","checks":{"database":"up","redis":"up"}}`; `/metrics` includes
+`statusbeam_http_request_duration_seconds`; unknown route returns the error envelope with
+`requestId`; migration created 11 public tables. `scripts/verify.ps1` exits 0 (11 API tests).
 
 ## S2 — Auth, projects, API keys, monitor CRUD
 
