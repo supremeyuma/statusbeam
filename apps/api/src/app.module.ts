@@ -10,6 +10,7 @@ import { HttpMetricsMiddleware } from './common/http-metrics.middleware';
 import { buildPinoOptions } from './common/logger';
 import { RequestIdMiddleware } from './common/request-id.middleware';
 import { DatabaseModule } from './db/database.module';
+import { JobsModule } from './jobs/jobs.module';
 import { ApiKeysModule } from './modules/api-keys/api-keys.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { HealthModule } from './modules/health/health.module';
@@ -29,6 +30,7 @@ import { RedisModule } from './redis/redis.module';
     RedisModule,
     MetricsModule,
     HealthModule,
+    JobsModule,
     AuthModule,
     ProjectsModule,
     ApiKeysModule,

@@ -7,3 +7,4 @@ process.env.JWT_REFRESH_SECRET = 'test-refresh-secret-value-with-at-least-32-cha
 process.env.ENCRYPTION_KEY = 'a'.repeat(64);
 process.env.ALLOW_PRIVATE_TARGETS = 'true';
 process.env.CHECK_TIMEOUT_MS = '2000';
+process.env.JOBS_ENABLED = 'false';

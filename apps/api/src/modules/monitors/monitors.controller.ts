@@ -18,6 +18,7 @@ import { z } from 'zod';
 import { requestSchema, responseSchema } from '../../common/openapi-schema';
 
 import {
+  checkListResponseSchema,
   monitorInputSchema,
   monitorListResponseSchema,
   monitorResponseSchema,
@@ -33,7 +34,12 @@ const createBody = requestSchema(monitorInputSchema);
 const updateBody = requestSchema(monitorUpdateInputSchema);
 const monitorResponse = responseSchema(monitorResponseSchema);
 const monitorListResponse = responseSchema(monitorListResponseSchema);
+const checkListResponse = responseSchema(checkListResponseSchema);
 const listQuerySchema = z.object({ projectId: z.uuid() });
+const checksQuerySchema = z.object({
+  limit: z.coerce.number().int().min(1).max(200).default(50),
+  cursor: z.string().min(1).max(500).optional(),
+});
 
 @ApiTags('monitors')
 @AllowApiKey()
@@ -61,6 +67,17 @@ export class MonitorsController {
     @Query(new ZodValidationPipe(listQuerySchema)) query: z.infer<typeof listQuerySchema>,
   ): Promise<z.infer<typeof monitorListResponseSchema>> {
     return this.monitors.list(auth, query.projectId);
+  }
+
+  @Get(':id/checks')
+  @RequireScopes('monitors:read')
+  @ApiOkResponse({ schema: checkListResponse })
+  public async listChecks(
+    @CurrentAuth() auth: AuthPrincipal,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Query(new ZodValidationPipe(checksQuerySchema)) query: z.infer<typeof checksQuerySchema>,
+  ): Promise<z.infer<typeof checkListResponseSchema>> {
+    return this.monitors.listChecks(auth, id, query.limit, query.cursor);
   }
 
   @Get(':id')
