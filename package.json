@@ -17,6 +17,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "pnpm -r lint",
+    "rollups:backfill": "pnpm --filter @statusbeam/api rollups:backfill",
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck",
     "verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1"

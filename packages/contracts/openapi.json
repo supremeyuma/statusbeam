@@ -10,9 +10,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "App"
-        ]
+        "tags": ["App"]
       }
     },
     "/metrics": {
@@ -24,9 +22,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Metrics"
-        ]
+        "tags": ["Metrics"]
       }
     },
     "/healthz": {
@@ -38,9 +34,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Health"
-        ]
+        "tags": ["Health"]
       }
     },
     "/readyz": {
@@ -52,9 +46,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Health"
-        ]
+        "tags": ["Health"]
       }
     },
     "/v1/auth/register": {
@@ -81,10 +73,7 @@
                     "maxLength": 128
                   }
                 },
-                "required": [
-                  "email",
-                  "password"
-                ]
+                "required": ["email", "password"]
               }
             }
           }
@@ -113,26 +102,18 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "email"
-                      ],
+                      "required": ["id", "email"],
                       "additionalProperties": false
                     }
                   },
-                  "required": [
-                    "accessToken",
-                    "user"
-                  ],
+                  "required": ["accessToken", "user"],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/v1/auth/login": {
@@ -159,10 +140,7 @@
                     "maxLength": 128
                   }
                 },
-                "required": [
-                  "email",
-                  "password"
-                ]
+                "required": ["email", "password"]
               }
             }
           }
@@ -191,26 +169,18 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "email"
-                      ],
+                      "required": ["id", "email"],
                       "additionalProperties": false
                     }
                   },
-                  "required": [
-                    "accessToken",
-                    "user"
-                  ],
+                  "required": ["accessToken", "user"],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/v1/auth/refresh": {
@@ -241,26 +211,18 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "email"
-                      ],
+                      "required": ["id", "email"],
                       "additionalProperties": false
                     }
                   },
-                  "required": [
-                    "accessToken",
-                    "user"
-                  ],
+                  "required": ["accessToken", "user"],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/v1/auth/logout": {
@@ -272,9 +234,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/v1/projects": {
@@ -299,9 +259,7 @@
                     "type": "boolean"
                   }
                 },
-                "required": [
-                  "name"
-                ]
+                "required": ["name"]
               }
             }
           }
@@ -333,22 +291,14 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "id",
-                    "name",
-                    "slug",
-                    "public",
-                    "createdAt"
-                  ],
+                  "required": ["id", "name", "slug", "public", "createdAt"],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": [
-          "projects"
-        ]
+        "tags": ["projects"]
       },
       "get": {
         "operationId": "ProjectsController_list",
@@ -382,13 +332,7 @@
                         "type": "string"
                       }
                     },
-                    "required": [
-                      "id",
-                      "name",
-                      "slug",
-                      "public",
-                      "createdAt"
-                    ],
+                    "required": ["id", "name", "slug", "public", "createdAt"],
                     "additionalProperties": false
                   }
                 }
@@ -396,9 +340,7 @@
             }
           }
         },
-        "tags": [
-          "projects"
-        ]
+        "tags": ["projects"]
       }
     },
     "/v1/projects/{id}": {
@@ -441,22 +383,14 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "id",
-                    "name",
-                    "slug",
-                    "public",
-                    "createdAt"
-                  ],
+                  "required": ["id", "name", "slug", "public", "createdAt"],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": [
-          "projects"
-        ]
+        "tags": ["projects"]
       },
       "patch": {
         "operationId": "ProjectsController_update",
@@ -524,22 +458,14 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "id",
-                    "name",
-                    "slug",
-                    "public",
-                    "createdAt"
-                  ],
+                  "required": ["id", "name", "slug", "public", "createdAt"],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": [
-          "projects"
-        ]
+        "tags": ["projects"]
       }
     },
     "/v1/api-keys": {
@@ -569,20 +495,11 @@
                     "type": "array",
                     "items": {
                       "type": "string",
-                      "enum": [
-                        "monitors:read",
-                        "monitors:write",
-                        "incidents:write",
-                        "status:read"
-                      ]
+                      "enum": ["monitors:read", "monitors:write", "incidents:write", "status:read"]
                     }
                   }
                 },
-                "required": [
-                  "projectId",
-                  "name",
-                  "scopes"
-                ]
+                "required": ["projectId", "name", "scopes"]
               }
             }
           }
@@ -626,10 +543,7 @@
                       }
                     },
                     "lastUsedAt": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
+                      "type": ["string", "null"]
                     },
                     "createdAt": {
                       "type": "string"
@@ -653,9 +567,7 @@
             }
           }
         },
-        "tags": [
-          "api-keys"
-        ]
+        "tags": ["api-keys"]
       },
       "get": {
         "operationId": "ApiKeysController_list",
@@ -701,10 +613,7 @@
                         }
                       },
                       "lastUsedAt": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
+                        "type": ["string", "null"]
                       },
                       "createdAt": {
                         "type": "string"
@@ -729,9 +638,7 @@
             }
           }
         },
-        "tags": [
-          "api-keys"
-        ]
+        "tags": ["api-keys"]
       }
     },
     "/v1/api-keys/{id}": {
@@ -752,9 +659,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "api-keys"
-        ]
+        "tags": ["api-keys"]
       }
     },
     "/v1/monitors": {
@@ -818,10 +723,7 @@
                           "method": {
                             "default": "GET",
                             "type": "string",
-                            "enum": [
-                              "GET",
-                              "HEAD"
-                            ]
+                            "enum": ["GET", "HEAD"]
                           },
                           "headers": {
                             "type": "object",
@@ -833,9 +735,7 @@
                             }
                           },
                           "expectedStatus": {
-                            "default": [
-                              200
-                            ],
+                            "default": [200],
                             "minItems": 1,
                             "type": "array",
                             "items": {
@@ -864,17 +764,10 @@
                             "type": "boolean"
                           }
                         },
-                        "required": [
-                          "url"
-                        ]
+                        "required": ["url"]
                       }
                     },
-                    "required": [
-                      "projectId",
-                      "name",
-                      "type",
-                      "config"
-                    ]
+                    "required": ["projectId", "name", "type", "config"]
                   },
                   {
                     "type": "object",
@@ -929,18 +822,10 @@
                             "maximum": 65535
                           }
                         },
-                        "required": [
-                          "host",
-                          "port"
-                        ]
+                        "required": ["host", "port"]
                       }
                     },
-                    "required": [
-                      "projectId",
-                      "name",
-                      "type",
-                      "config"
-                    ]
+                    "required": ["projectId", "name", "type", "config"]
                   }
                 ]
               }
@@ -971,10 +856,7 @@
                     },
                     "type": {
                       "type": "string",
-                      "enum": [
-                        "http",
-                        "tcp"
-                      ]
+                      "enum": ["http", "tcp"]
                     },
                     "config": {
                       "type": "object",
@@ -996,19 +878,13 @@
                       "type": "boolean"
                     },
                     "nextRunAt": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
+                      "type": ["string", "null"]
                     },
                     "lastStatus": {
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": [
-                            "up",
-                            "down"
-                          ]
+                          "enum": ["up", "down"]
                         },
                         {
                           "type": "null"
@@ -1016,10 +892,7 @@
                       ]
                     },
                     "lastCheckedAt": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
+                      "type": ["string", "null"]
                     },
                     "createdAt": {
                       "type": "string"
@@ -1050,9 +923,7 @@
             }
           }
         },
-        "tags": [
-          "monitors"
-        ]
+        "tags": ["monitors"]
       },
       "get": {
         "operationId": "MonitorsController_list",
@@ -1083,10 +954,7 @@
                       },
                       "type": {
                         "type": "string",
-                        "enum": [
-                          "http",
-                          "tcp"
-                        ]
+                        "enum": ["http", "tcp"]
                       },
                       "config": {
                         "type": "object",
@@ -1108,19 +976,13 @@
                         "type": "boolean"
                       },
                       "nextRunAt": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
+                        "type": ["string", "null"]
                       },
                       "lastStatus": {
                         "anyOf": [
                           {
                             "type": "string",
-                            "enum": [
-                              "up",
-                              "down"
-                            ]
+                            "enum": ["up", "down"]
                           },
                           {
                             "type": "null"
@@ -1128,10 +990,7 @@
                         ]
                       },
                       "lastCheckedAt": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
+                        "type": ["string", "null"]
                       },
                       "createdAt": {
                         "type": "string"
@@ -1163,9 +1022,89 @@
             }
           }
         },
-        "tags": [
-          "monitors"
-        ]
+        "tags": ["monitors"]
+      }
+    },
+    "/v1/monitors/{id}/checks": {
+      "get": {
+        "operationId": "MonitorsController_listChecks",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "http://json-schema.org/draft-07/schema#",
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "monitorId": {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          "region": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": ["up", "down"]
+                          },
+                          "latencyMs": {
+                            "type": "number"
+                          },
+                          "statusCode": {
+                            "type": ["number", "null"]
+                          },
+                          "error": {
+                            "type": ["string", "null"]
+                          },
+                          "checkedAt": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "monitorId",
+                          "region",
+                          "status",
+                          "latencyMs",
+                          "statusCode",
+                          "error",
+                          "checkedAt"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "nextCursor": {
+                      "type": ["string", "null"]
+                    }
+                  },
+                  "required": ["items", "nextCursor"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        },
+        "tags": ["monitors"]
       }
     },
     "/v1/monitors/{id}": {
@@ -1205,10 +1144,7 @@
                     },
                     "type": {
                       "type": "string",
-                      "enum": [
-                        "http",
-                        "tcp"
-                      ]
+                      "enum": ["http", "tcp"]
                     },
                     "config": {
                       "type": "object",
@@ -1230,19 +1166,13 @@
                       "type": "boolean"
                     },
                     "nextRunAt": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
+                      "type": ["string", "null"]
                     },
                     "lastStatus": {
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": [
-                            "up",
-                            "down"
-                          ]
+                          "enum": ["up", "down"]
                         },
                         {
                           "type": "null"
@@ -1250,10 +1180,7 @@
                       ]
                     },
                     "lastCheckedAt": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
+                      "type": ["string", "null"]
                     },
                     "createdAt": {
                       "type": "string"
@@ -1284,9 +1211,7 @@
             }
           }
         },
-        "tags": [
-          "monitors"
-        ]
+        "tags": ["monitors"]
       },
       "patch": {
         "operationId": "MonitorsController_update",
@@ -1351,10 +1276,7 @@
                               "method": {
                                 "default": "GET",
                                 "type": "string",
-                                "enum": [
-                                  "GET",
-                                  "HEAD"
-                                ]
+                                "enum": ["GET", "HEAD"]
                               },
                               "headers": {
                                 "type": "object",
@@ -1366,9 +1288,7 @@
                                 }
                               },
                               "expectedStatus": {
-                                "default": [
-                                  200
-                                ],
+                                "default": [200],
                                 "minItems": 1,
                                 "type": "array",
                                 "items": {
@@ -1397,15 +1317,10 @@
                                 "type": "boolean"
                               }
                             },
-                            "required": [
-                              "url"
-                            ]
+                            "required": ["url"]
                           }
                         },
-                        "required": [
-                          "type",
-                          "config"
-                        ]
+                        "required": ["type", "config"]
                       },
                       {
                         "type": "object",
@@ -1428,16 +1343,10 @@
                                 "maximum": 65535
                               }
                             },
-                            "required": [
-                              "host",
-                              "port"
-                            ]
+                            "required": ["host", "port"]
                           }
                         },
-                        "required": [
-                          "type",
-                          "config"
-                        ]
+                        "required": ["type", "config"]
                       }
                     ]
                   }
@@ -1470,10 +1379,7 @@
                     },
                     "type": {
                       "type": "string",
-                      "enum": [
-                        "http",
-                        "tcp"
-                      ]
+                      "enum": ["http", "tcp"]
                     },
                     "config": {
                       "type": "object",
@@ -1495,19 +1401,13 @@
                       "type": "boolean"
                     },
                     "nextRunAt": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
+                      "type": ["string", "null"]
                     },
                     "lastStatus": {
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": [
-                            "up",
-                            "down"
-                          ]
+                          "enum": ["up", "down"]
                         },
                         {
                           "type": "null"
@@ -1515,10 +1415,7 @@
                       ]
                     },
                     "lastCheckedAt": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
+                      "type": ["string", "null"]
                     },
                     "createdAt": {
                       "type": "string"
@@ -1549,9 +1446,7 @@
             }
           }
         },
-        "tags": [
-          "monitors"
-        ]
+        "tags": ["monitors"]
       },
       "delete": {
         "operationId": "MonitorsController_remove",
@@ -1570,9 +1465,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "monitors"
-        ]
+        "tags": ["monitors"]
       }
     }
   },

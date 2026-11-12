@@ -47,12 +47,19 @@ serves `/openapi.json`, `POST /v1/auth/register`, and `GET /v1/projects` with a 
 
 ## S3 — Checker, scheduler, rollups
 
-- [ ] HTTP/TCP checker with typed results
-- [ ] BullMQ repeatable job per monitor + Redis lock
-- [ ] Hourly idempotent rollups and retention
-- [ ] Duplicate-run and rollup-math tests
+- [x] HTTP/TCP checker with typed results
+- [x] BullMQ repeatable job per monitor + Redis lock
+- [x] Hourly idempotent rollups and retention
+- [x] Duplicate-run and rollup-math tests
 
-**Gate evidence:** _pending_
+**Gate evidence:** 84 API tests green (12 files). The duplicate-run test races two
+`CheckProcessor.process()` calls against real Redis and asserts outcomes `checked`+`skipped`
+with exactly one `checks` row. Rollup fixtures (4 up / 1 down, latencies 10–50ms) yield
+nearest-rank p95 = 50 and reruns leave counts unchanged. Compose smoke: monitor with
+`intervalS=30` against `host.docker.internal:9099` produced 2 `up` checks, `lastStatus=up`,
+and `/metrics` exposed `statusbeam_check_duration_seconds`, `statusbeam_check_skipped_total`,
+and `statusbeam_scheduler_lag_seconds`. `pnpm rollups:backfill -- --days 1` rolled the seeded
+history and `sum(up+down)=1` matched raw checks `=1` for the completed hours.
 
 ## S4 — Incidents and notifications
 

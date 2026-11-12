@@ -31,6 +31,12 @@ const configSchema = z.object({
   MAIL_FROM: z.string().email().default('statusbeam@example.com'),
   ALLOW_PRIVATE_TARGETS: booleanFromString,
   CHECK_TIMEOUT_MS: z.coerce.number().int().min(100).max(60_000).default(5000),
+  CHECK_RETENTION_DAYS: z.coerce.number().int().min(1).max(365).default(7),
+  ROLLUP_RETENTION_DAYS: z.coerce.number().int().min(1).max(3650).default(90),
+  JOBS_ENABLED: z
+    .enum(['true', 'false'])
+    .default('true')
+    .transform((value) => value === 'true'),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
 });
 
@@ -49,6 +55,9 @@ export interface AppConfig {
   mailFrom: string;
   allowPrivateTargets: boolean;
   checkTimeoutMs: number;
+  checkRetentionDays: number;
+  rollupRetentionDays: number;
+  jobsEnabled: boolean;
   logLevel: 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'silent';
 }
 
@@ -83,6 +92,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     mailFrom: value.MAIL_FROM,
     allowPrivateTargets: value.ALLOW_PRIVATE_TARGETS,
     checkTimeoutMs: value.CHECK_TIMEOUT_MS,
+    checkRetentionDays: value.CHECK_RETENTION_DAYS,
+    rollupRetentionDays: value.ROLLUP_RETENTION_DAYS,
+    jobsEnabled: value.JOBS_ENABLED,
     logLevel: value.LOG_LEVEL,
   };
 }

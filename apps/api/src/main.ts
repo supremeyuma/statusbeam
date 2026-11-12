@@ -8,10 +8,12 @@ import { AppModule } from './app.module';
 import { configureApp } from './bootstrap';
 import { loadConfig, ConfigError } from './common/config';
 import type { AppConfig } from './common/config';
+import { loadEnvFiles } from './common/load-env';
 import { runMigrations } from './db/migrate';
 import { buildOpenApiDocument } from './openapi';
 
 async function bootstrap(): Promise<void> {
+  loadEnvFiles();
   let config: AppConfig;
   try {
     config = loadConfig();

@@ -1,7 +1,8 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { eq } from 'drizzle-orm';
+import { eq, and, or, lt } from 'drizzle-orm';
 
 import type {
+  CheckListResponse,
   HttpMonitorConfig,
   MonitorInput,
   MonitorResponse,
@@ -13,10 +14,29 @@ import { APP_CONFIG } from '../../common/config.module';
 import type { AppConfig } from '../../common/config';
 import { DATABASE } from '../../db/database.module';
 import type { Database } from '../../db/client';
-import { monitors } from '../../db/schema';
+import { monitors, checks } from '../../db/schema';
 import type { Monitor } from '../../db/schema';
 import { ProjectsService } from '../projects/projects.service';
+import { SchedulerService } from '../../jobs/scheduler.service';
 import { assertHttpTargetAllowed, assertTcpTargetAllowed } from './ssrf';
+
+function encodeCursor(checkedAt: Date, id: number): string {
+  return Buffer.from(`${checkedAt.toISOString()}|${id}`, 'utf8').toString('base64url');
+}
+
+function decodeCursor(cursor: string): { checkedAt: Date; id: number } {
+  try {
+    const [rawDate, rawId] = Buffer.from(cursor, 'base64url').toString('utf8').split('|');
+    const checkedAt = new Date(rawDate ?? '');
+    const id = Number(rawId);
+    if (Number.isNaN(checkedAt.getTime()) || !Number.isInteger(id)) {
+      throw new Error('invalid cursor payload');
+    }
+    return { checkedAt, id };
+  } catch {
+    throw new BadRequestException('invalid pagination cursor');
+  }
+}
 
 export function toMonitorResponse(monitor: Monitor): MonitorResponse {
   return {
@@ -43,6 +63,7 @@ export class MonitorsService {
     @Inject(DATABASE) private readonly db: Database,
     @Inject(APP_CONFIG) private readonly config: AppConfig,
     private readonly projects: ProjectsService,
+    private readonly scheduler: SchedulerService,
   ) {}
 
   public async create(auth: AuthPrincipal, input: MonitorInput): Promise<MonitorResponse> {
@@ -68,6 +89,7 @@ export class MonitorsService {
     if (!monitor) {
       throw new Error('monitor insert returned no row');
     }
+    await this.scheduler.sync(monitor);
     return toMonitorResponse(monitor);
   }
 
@@ -121,12 +143,59 @@ export class MonitorsService {
     if (!updated) {
       throw new NotFoundException('monitor not found');
     }
+    await this.scheduler.sync(updated);
     return toMonitorResponse(updated);
   }
 
   public async remove(auth: AuthPrincipal, id: string): Promise<void> {
     const monitor = await this.findAccessible(auth, id);
+    await this.scheduler.remove(monitor.id);
     await this.db.delete(monitors).where(eq(monitors.id, monitor.id));
+  }
+
+  public async listChecks(
+    auth: AuthPrincipal,
+    id: string,
+    limit: number,
+    cursor: string | undefined,
+  ): Promise<CheckListResponse> {
+    await this.findAccessible(auth, id);
+
+    const filters = [eq(checks.monitorId, id)];
+    if (cursor) {
+      const decoded = decodeCursor(cursor);
+      filters.push(
+        or(
+          lt(checks.checkedAt, decoded.checkedAt),
+          and(eq(checks.checkedAt, decoded.checkedAt), lt(checks.id, decoded.id)),
+        )!,
+      );
+    }
+
+    const rows = await this.db
+      .select()
+      .from(checks)
+      .where(and(...filters))
+      .orderBy(checks.checkedAt, checks.id)
+      .limit(limit + 1);
+
+    const hasMore = rows.length > limit;
+    const page = hasMore ? rows.slice(0, limit) : rows;
+    const last = page[page.length - 1];
+
+    return {
+      items: page.map((row) => ({
+        id: row.id,
+        monitorId: row.monitorId,
+        region: row.region,
+        status: row.status,
+        latencyMs: row.latencyMs,
+        statusCode: row.statusCode,
+        error: row.error,
+        checkedAt: row.checkedAt.toISOString(),
+      })),
+      nextCursor: hasMore && last ? encodeCursor(last.checkedAt, last.id) : null,
+    };
   }
 
   private async findAccessible(auth: AuthPrincipal, id: string): Promise<Monitor> {

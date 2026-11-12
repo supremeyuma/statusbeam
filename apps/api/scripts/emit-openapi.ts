@@ -12,6 +12,7 @@ process.env.JWT_SECRET ??= 'openapi-generation-secret-with-32-chars';
 process.env.JWT_REFRESH_SECRET ??= 'openapi-generation-refresh-with-32-chars';
 process.env.ENCRYPTION_KEY ??= '0'.repeat(64);
 process.env.LOG_LEVEL ??= 'silent';
+process.env.JOBS_ENABLED ??= 'false';
 
 async function main(): Promise<void> {
   const { AppModule } = await import('../src/app.module');
