@@ -10,8 +10,12 @@ import { HttpMetricsMiddleware } from './common/http-metrics.middleware';
 import { buildPinoOptions } from './common/logger';
 import { RequestIdMiddleware } from './common/request-id.middleware';
 import { DatabaseModule } from './db/database.module';
+import { ApiKeysModule } from './modules/api-keys/api-keys.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { HealthModule } from './modules/health/health.module';
 import { MetricsModule } from './modules/metrics/metrics.module';
+import { MonitorsModule } from './modules/monitors/monitors.module';
+import { ProjectsModule } from './modules/projects/projects.module';
 import { RedisModule } from './redis/redis.module';
 
 @Module({
@@ -25,6 +29,10 @@ import { RedisModule } from './redis/redis.module';
     RedisModule,
     MetricsModule,
     HealthModule,
+    AuthModule,
+    ProjectsModule,
+    ApiKeysModule,
+    MonitorsModule,
   ],
   controllers: [AppController],
   providers: [{ provide: APP_FILTER, useClass: AllExceptionsFilter }],

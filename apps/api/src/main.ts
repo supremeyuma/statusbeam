@@ -1,13 +1,15 @@
 import 'reflect-metadata';
 
-import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Logger } from 'nestjs-pino';
+import type { Application } from 'express';
 
 import { AppModule } from './app.module';
+import { configureApp } from './bootstrap';
 import { loadConfig, ConfigError } from './common/config';
 import type { AppConfig } from './common/config';
 import { runMigrations } from './db/migrate';
+import { buildOpenApiDocument } from './openapi';
 
 async function bootstrap(): Promise<void> {
   let config: AppConfig;
@@ -27,8 +29,14 @@ async function bootstrap(): Promise<void> {
 
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
   app.useLogger(app.get(Logger));
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+  configureApp(app);
   app.enableShutdownHooks();
+
+  const document = buildOpenApiDocument(app);
+  const server = app.getHttpAdapter().getInstance() as Application;
+  server.get('/openapi.json', (_req, res) => {
+    res.json(document);
+  });
 
   await app.listen(config.port);
   const logger = app.get(Logger);
