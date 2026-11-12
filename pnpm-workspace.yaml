@@ -1,0 +1,10 @@
+packages:
+  - apps/*
+  - packages/*
+
+allowBuilds:
+  '@swc/core': true
+  argon2: true
+  esbuild: true
+  sharp: true
+  unrs-resolver: true

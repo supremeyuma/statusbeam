@@ -37,11 +37,11 @@ remote.** Start with the tooling part of Phase 0 in [`docs/plan.md`](docs/plan.m
 Two other agents are building `evalgate` and `edgelink` on the same machine, and HookRelay may
 be running. Use these host ports so stacks do not collide:
 
-| Service | Port |
-|---|---|
-| Postgres (host) | **5433** |
-| Redis (host) | **6380** |
-| API | **3001** |
+| Service                     | Port     |
+| --------------------------- | -------- |
+| Postgres (host)             | **5433** |
+| Redis (host)                | **6380** |
+| API                         | **3001** |
 | Web dashboard / public page | **3000** |
 
 - Put `name: statusbeam` in the compose file and use these host mappings from the start.
