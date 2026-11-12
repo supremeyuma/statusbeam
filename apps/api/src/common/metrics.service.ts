@@ -1,5 +1,5 @@
 import { Injectable, type OnModuleDestroy } from '@nestjs/common';
-import { collectDefaultMetrics, Counter, Histogram, Registry } from 'prom-client';
+import { collectDefaultMetrics, Counter, Gauge, Histogram, Registry } from 'prom-client';
 
 export type HttpMetricLabels = 'method' | 'route' | 'status_code';
 export type CheckMetricLabels = 'type' | 'status';
@@ -13,6 +13,8 @@ export class MetricsService implements OnModuleDestroy {
   public readonly schedulerLag: Histogram<string>;
   public readonly notificationSent: Counter<'type' | 'status'>;
   public readonly notificationDlq: Counter<string>;
+  public readonly sseConnections: Gauge<string>;
+  public readonly sseEvents: Counter<'type'>;
 
   public constructor() {
     this.registry.setDefaultLabels({ service: 'statusbeam-api' });
@@ -57,6 +59,19 @@ export class MetricsService implements OnModuleDestroy {
     this.notificationDlq = new Counter({
       name: 'statusbeam_notification_dlq_total',
       help: 'Notification deliveries moved to the dead-letter queue',
+      registers: [this.registry],
+    });
+
+    this.sseConnections = new Gauge({
+      name: 'statusbeam_sse_connections',
+      help: 'Currently open public SSE connections',
+      registers: [this.registry],
+    });
+
+    this.sseEvents = new Counter({
+      name: 'statusbeam_sse_events_total',
+      help: 'SSE events written to clients by type',
+      labelNames: ['type'],
       registers: [this.registry],
     });
   }

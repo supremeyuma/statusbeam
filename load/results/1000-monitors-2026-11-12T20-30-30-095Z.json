@@ -1,0 +1,39 @@
+{
+  "label": "1000-monitors",
+  "startedAt": "2026-11-12T20:29:27.604Z",
+  "durationSeconds": 62,
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i7-14650HX",
+    "cores": 24,
+    "memoryGb": 31.6
+  },
+  "monitors": 1000,
+  "checks": {
+    "count": 49000,
+    "avgLatencyMs": 1.302673469387755,
+    "skipped": 0
+  },
+  "schedulerLagSeconds": {
+    "p50": 0.757902566009669,
+    "p95": 1.8407643312101911,
+    "p99": 1.9681528662420382,
+    "count": 7000
+  },
+  "checkDurationSeconds": {
+    "p50": 0.005023683077364719,
+    "p95": 0.009544997846992967,
+    "p99": 0.009946892493182145,
+    "count": 7000
+  },
+  "containers": {
+    "statusbeam-api-1": "cpu 0.42% ? mem 82.51MiB / 15.42GiB",
+    "statusbeam-postgres-1": "cpu 0.02% ? mem 72.41MiB / 15.42GiB",
+    "statusbeam-redis-1": "cpu 0.41% ? mem 18.62MiB / 15.42GiB"
+  },
+  "httpRequestDurationSeconds": {
+    "p50": 0.0025,
+    "p95": 0.004749999999999999,
+    "p99": 0.0049499999999999995,
+    "count": 12
+  }
+}

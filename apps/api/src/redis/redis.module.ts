@@ -17,7 +17,7 @@ export const REDIS = Symbol('REDIS');
           lazyConnect: true,
           maxRetriesPerRequest: 1,
           connectTimeout: 1000,
-          retryStrategy: (times) => (times >= 3 ? null : 200),
+          retryStrategy: (times) => Math.min(times * 200, 2000),
         }),
     },
   ],
