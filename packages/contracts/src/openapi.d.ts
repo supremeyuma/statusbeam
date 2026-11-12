@@ -68,6 +68,150 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/projects/{projectId}/incidents': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['IncidentsController_list'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/incidents/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['IncidentsController_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/incidents/{id}/updates': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['IncidentsController_addUpdate'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/projects': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['ProjectsController_list'];
+    put?: never;
+    post: operations['ProjectsController_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/projects/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['ProjectsController_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations['ProjectsController_update'];
+    trace?: never;
+  };
+  '/v1/channels': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['ChannelsController_list'];
+    put?: never;
+    post: operations['ChannelsController_create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/channels/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete: operations['ChannelsController_remove'];
+    options?: never;
+    head?: never;
+    patch: operations['ChannelsController_update'];
+    trace?: never;
+  };
+  '/v1/notifications/dlq': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['NotificationsController_list'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/notifications/dlq/{id}/replay': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['NotificationsController_replay'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/auth/register': {
     parameters: {
       query?: never;
@@ -130,38 +274,6 @@ export interface paths {
     options?: never;
     head?: never;
     patch?: never;
-    trace?: never;
-  };
-  '/v1/projects': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations['ProjectsController_list'];
-    put?: never;
-    post: operations['ProjectsController_create'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/v1/projects/{id}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations['ProjectsController_get'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch: operations['ProjectsController_update'];
     trace?: never;
   };
   '/v1/api-keys': {
@@ -324,19 +436,94 @@ export interface operations {
       };
     };
   };
-  AuthController_register: {
+  IncidentsController_list: {
     parameters: {
       query?: never;
       header?: never;
-      path?: never;
+      path: {
+        projectId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            monitorId: string;
+            /** @enum {string} */
+            status: 'investigating' | 'identified' | 'monitoring' | 'resolved';
+            startedAt: string;
+            resolvedAt: string | null;
+            cause: string | null;
+          }[];
+        };
+      };
+    };
+  };
+  IncidentsController_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            monitorId: string;
+            /** @enum {string} */
+            status: 'investigating' | 'identified' | 'monitoring' | 'resolved';
+            startedAt: string;
+            resolvedAt: string | null;
+            cause: string | null;
+            updates: {
+              /** Format: uuid */
+              id: string;
+              /** Format: uuid */
+              incidentId: string;
+              /** @enum {string} */
+              status: 'investigating' | 'identified' | 'monitoring' | 'resolved';
+              message: string;
+              actor: string;
+              createdAt: string;
+            }[];
+          };
+        };
+      };
+    };
+  };
+  IncidentsController_addUpdate: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
       cookie?: never;
     };
     requestBody: {
       content: {
         'application/json': {
-          /** Format: email */
-          email: string;
-          password: string;
+          /** @enum {string} */
+          status: 'investigating' | 'identified' | 'monitoring' | 'resolved';
+          message: string;
         };
       };
     };
@@ -347,91 +534,17 @@ export interface operations {
         };
         content: {
           'application/json': {
-            accessToken: string;
-            user: {
-              /** Format: uuid */
-              id: string;
-              email: string;
-            };
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            incidentId: string;
+            /** @enum {string} */
+            status: 'investigating' | 'identified' | 'monitoring' | 'resolved';
+            message: string;
+            actor: string;
+            createdAt: string;
           };
         };
-      };
-    };
-  };
-  AuthController_login: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          /** Format: email */
-          email: string;
-          password: string;
-        };
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            accessToken: string;
-            user: {
-              /** Format: uuid */
-              id: string;
-              email: string;
-            };
-          };
-        };
-      };
-    };
-  };
-  AuthController_refresh: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            accessToken: string;
-            user: {
-              /** Format: uuid */
-              id: string;
-              email: string;
-            };
-          };
-        };
-      };
-    };
-  };
-  AuthController_logout: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      204: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
       };
     };
   };
@@ -556,6 +669,344 @@ export interface operations {
             createdAt: string;
           };
         };
+      };
+    };
+  };
+  ChannelsController_list: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            projectId: string;
+            /** @enum {string} */
+            type: 'webhook' | 'slack' | 'email';
+            config: {
+              [key: string]: unknown;
+            };
+            active: boolean;
+            createdAt: string;
+          }[];
+        };
+      };
+    };
+  };
+  ChannelsController_create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json':
+          | {
+              /** Format: uuid */
+              projectId: string;
+              /** @constant */
+              type: 'webhook';
+              config: {
+                /** Format: uri */
+                url: string;
+                secret?: string;
+              };
+              /** @default true */
+              active?: boolean;
+            }
+          | {
+              /** Format: uuid */
+              projectId: string;
+              /** @constant */
+              type: 'slack';
+              config: {
+                /** Format: uri */
+                webhookUrl: string;
+              };
+              /** @default true */
+              active?: boolean;
+            }
+          | {
+              /** Format: uuid */
+              projectId: string;
+              /** @constant */
+              type: 'email';
+              config: {
+                /** Format: email */
+                to: string;
+              };
+              /** @default true */
+              active?: boolean;
+            };
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            projectId: string;
+            /** @enum {string} */
+            type: 'webhook' | 'slack' | 'email';
+            config: {
+              [key: string]: unknown;
+            };
+            active: boolean;
+            createdAt: string;
+          };
+        };
+      };
+    };
+  };
+  ChannelsController_remove: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  ChannelsController_update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          config?:
+            | {
+                /** Format: uri */
+                url: string;
+                secret?: string;
+              }
+            | {
+                /** Format: uri */
+                webhookUrl: string;
+              }
+            | {
+                /** Format: email */
+                to: string;
+              };
+          active?: boolean;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            projectId: string;
+            /** @enum {string} */
+            type: 'webhook' | 'slack' | 'email';
+            config: {
+              [key: string]: unknown;
+            };
+            active: boolean;
+            createdAt: string;
+          };
+        };
+      };
+    };
+  };
+  NotificationsController_list: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** Format: uuid */
+            id: string;
+            jobId: string;
+            channelId: string | null;
+            incidentUpdateId: string | null;
+            errorClass: string;
+            message: string;
+            attempts: number;
+            createdAt: string;
+          }[];
+        };
+      };
+    };
+  };
+  NotificationsController_replay: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      202: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            jobId: string;
+          };
+        };
+      };
+    };
+  };
+  AuthController_register: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** Format: email */
+          email: string;
+          password: string;
+        };
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            accessToken: string;
+            user: {
+              /** Format: uuid */
+              id: string;
+              email: string;
+            };
+          };
+        };
+      };
+    };
+  };
+  AuthController_login: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** Format: email */
+          email: string;
+          password: string;
+        };
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            accessToken: string;
+            user: {
+              /** Format: uuid */
+              id: string;
+              email: string;
+            };
+          };
+        };
+      };
+    };
+  };
+  AuthController_refresh: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            accessToken: string;
+            user: {
+              /** Format: uuid */
+              id: string;
+              email: string;
+            };
+          };
+        };
+      };
+    };
+  };
+  AuthController_logout: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };

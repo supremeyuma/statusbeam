@@ -22,26 +22,33 @@ export interface ErrorEnvelope {
 function extractMessage(
   exception: unknown,
   status: number,
-): { message: string | string[]; error: string } {
+): { message: string | string[]; error: string; extras: Record<string, unknown> } {
   if (exception instanceof HttpException) {
     const response = exception.getResponse();
     if (typeof response === 'string') {
-      return { message: response, error: HttpStatus[status] ?? 'Error' };
+      return { message: response, error: HttpStatus[status] ?? 'Error', extras: {} };
     }
     if (typeof response === 'object' && response !== null) {
-      const body = response as { message?: unknown; error?: unknown };
+      const body = response as Record<string, unknown>;
       const message =
         typeof body.message === 'string' || Array.isArray(body.message)
           ? (body.message as string | string[])
           : exception.message;
       const error = typeof body.error === 'string' ? body.error : (HttpStatus[status] ?? 'Error');
-      return { message, error };
+      const extras: Record<string, unknown> = {};
+      for (const [key, value] of Object.entries(body)) {
+        if (key !== 'message' && key !== 'error' && key !== 'statusCode') {
+          extras[key] = value;
+        }
+      }
+      return { message, error, extras };
     }
   }
 
   return {
     message: status >= 500 ? 'Internal server error' : 'Request failed',
     error: HttpStatus[status] ?? 'Error',
+    extras: {},
   };
 }
 
@@ -61,7 +68,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const status =
       exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const { message, error } = extractMessage(exception, status);
+    const { message, error, extras } = extractMessage(exception, status);
     const requestId =
       getRequestId() ??
       sanitizeRequestId(typeof request.id === 'string' ? request.id : undefined) ??
@@ -87,7 +94,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     }
 
     if (!response.headersSent) {
-      response.status(status).json(envelope);
+      response.status(status).json({ ...envelope, ...extras });
     }
   }
 }

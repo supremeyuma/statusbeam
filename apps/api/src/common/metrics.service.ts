@@ -11,6 +11,8 @@ export class MetricsService implements OnModuleDestroy {
   public readonly checkDuration: Histogram<CheckMetricLabels>;
   public readonly checkSkipped: Counter<string>;
   public readonly schedulerLag: Histogram<string>;
+  public readonly notificationSent: Counter<'type' | 'status'>;
+  public readonly notificationDlq: Counter<string>;
 
   public constructor() {
     this.registry.setDefaultLabels({ service: 'statusbeam-api' });
@@ -42,6 +44,19 @@ export class MetricsService implements OnModuleDestroy {
       name: 'statusbeam_scheduler_lag_seconds',
       help: 'Seconds between the scheduled job timestamp and the worker starting it',
       buckets: [0.01, 0.05, 0.1, 0.25, 0.5, 1, 2, 5, 10, 30, 60],
+      registers: [this.registry],
+    });
+
+    this.notificationSent = new Counter({
+      name: 'statusbeam_notifications_sent_total',
+      help: 'Notification delivery attempts by channel type and outcome',
+      labelNames: ['type', 'status'],
+      registers: [this.registry],
+    });
+
+    this.notificationDlq = new Counter({
+      name: 'statusbeam_notification_dlq_total',
+      help: 'Notification deliveries moved to the dead-letter queue',
       registers: [this.registry],
     });
   }

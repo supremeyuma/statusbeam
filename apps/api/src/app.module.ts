@@ -14,8 +14,10 @@ import { JobsModule } from './jobs/jobs.module';
 import { ApiKeysModule } from './modules/api-keys/api-keys.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { HealthModule } from './modules/health/health.module';
+import { IncidentsModule } from './modules/incidents/incidents.module';
 import { MetricsModule } from './modules/metrics/metrics.module';
 import { MonitorsModule } from './modules/monitors/monitors.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 import { ProjectsModule } from './modules/projects/projects.module';
 import { RedisModule } from './redis/redis.module';
 
@@ -35,6 +37,8 @@ import { RedisModule } from './redis/redis.module';
     ProjectsModule,
     ApiKeysModule,
     MonitorsModule,
+    NotificationsModule,
+    IncidentsModule,
   ],
   controllers: [AppController],
   providers: [{ provide: APP_FILTER, useClass: AllExceptionsFilter }],
