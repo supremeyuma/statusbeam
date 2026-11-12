@@ -18,6 +18,7 @@ import { publicStatusResponseSchema } from '@statusbeam/contracts';
 import { APP_CONFIG } from '../../common/config.module';
 import type { AppConfig } from '../../common/config';
 import { responseSchema } from '../../common/openapi-schema';
+import { MetricsService } from '../../common/metrics.service';
 import { StatusEventsService } from './status-events.service';
 import type { StatusEvent } from './status-events.service';
 import { StatusService } from './status.service';
@@ -39,6 +40,7 @@ export class StatusController {
   public constructor(
     private readonly status: StatusService,
     private readonly events: StatusEventsService,
+    private readonly metrics: MetricsService,
     @Inject(APP_CONFIG) private readonly config: AppConfig,
   ) {}
 
@@ -90,6 +92,7 @@ export class StatusController {
       'x-accel-buffering': 'no',
     });
     res.flushHeaders();
+    this.metrics.sseConnections.inc();
 
     let closed = false;
     let paused = false;
@@ -101,6 +104,7 @@ export class StatusController {
         return;
       }
       closed = true;
+      this.metrics.sseConnections.dec();
       clearInterval(heartbeat);
       if (subscriber) {
         void subscriber.quit().catch(() => subscriber?.disconnect());
@@ -131,15 +135,18 @@ export class StatusController {
         }
         return;
       }
+      this.metrics.sseEvents.inc({ type: event.type });
       if (res.write(formatEvent(event)) === false) {
         paused = true;
       }
     });
 
+    this.metrics.sseEvents.inc({ type: 'snapshot' });
     res.write(`event: snapshot\ndata: ${JSON.stringify(snapshot)}\n\n`);
 
     const history = await this.events.history(project.id, lastEventId);
     for (const event of history) {
+      this.metrics.sseEvents.inc({ type: event.type });
       if (res.write(formatEvent(event)) === false) {
         paused = true;
         break;
@@ -156,6 +163,9 @@ export class StatusController {
       paused = false;
       while (buffered.length > 0 && !paused && !closed) {
         const next = buffered.shift();
+        if (next) {
+          this.metrics.sseEvents.inc({ type: next.type });
+        }
         if (next && res.write(formatEvent(next)) === false) {
           paused = true;
         }

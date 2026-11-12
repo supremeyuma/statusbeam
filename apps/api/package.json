@@ -14,7 +14,10 @@
     "rollups:backfill": "ts-node --transpile-only scripts/rollups-backfill.ts",
     "start": "node dist/main.js",
     "test": "vitest run",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "load:seed": "ts-node --transpile-only scripts/seed-monitors.ts",
+    "load:measure": "ts-node --transpile-only scripts/load-measure.ts",
+    "load:cleanup": "ts-node --transpile-only scripts/cleanup-load.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.2.9",

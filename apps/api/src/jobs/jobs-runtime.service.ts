@@ -46,7 +46,9 @@ export class JobsRuntimeService implements OnModuleInit, OnApplicationShutdown {
         if (typeof monitorId !== 'string') {
           throw new Error(`check job ${job.id} is missing a monitorId`);
         }
-        await this.checkProcessor.process(monitorId, job.timestamp);
+        // Repeatable jobs are created one interval early; the due time is creation + delay.
+        const dueAt = job.timestamp + (job.opts.delay ?? 0);
+        await this.checkProcessor.process(monitorId, dueAt);
       },
       {
         connection: new Redis(this.config.redisUrl, { maxRetriesPerRequest: null }),

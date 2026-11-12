@@ -12,7 +12,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { z } from 'zod';
 
 import {
@@ -54,6 +54,7 @@ export class ChannelsController {
   }
 
   @Get()
+  @ApiQuery({ name: 'projectId', required: true, schema: { type: 'string', format: 'uuid' } })
   @ApiOkResponse({ schema: channelListResponse })
   public async list(
     @CurrentAuth() auth: AuthPrincipal,

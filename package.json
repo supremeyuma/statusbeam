@@ -16,11 +16,14 @@
     "dev:web": "pnpm --filter @statusbeam/web dev",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "pnpm -r lint",
+    "lint": "pnpm --filter @statusbeam/contracts build && pnpm -r lint",
     "rollups:backfill": "pnpm --filter @statusbeam/api rollups:backfill",
-    "test": "pnpm -r test",
-    "typecheck": "pnpm -r typecheck",
-    "verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1"
+    "test": "pnpm --filter @statusbeam/contracts build && pnpm -r test",
+    "typecheck": "pnpm --filter @statusbeam/contracts build && pnpm -r typecheck",
+    "verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1",
+    "load:seed": "pnpm --filter @statusbeam/api load:seed",
+    "load:measure": "pnpm --filter @statusbeam/api load:measure",
+    "load:cleanup": "pnpm --filter @statusbeam/api load:cleanup"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",

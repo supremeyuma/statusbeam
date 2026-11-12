@@ -12,7 +12,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { z } from 'zod';
 
 import { requestSchema, responseSchema } from '../../common/openapi-schema';
@@ -61,6 +61,7 @@ export class MonitorsController {
 
   @Get()
   @RequireScopes('monitors:read')
+  @ApiQuery({ name: 'projectId', required: true, schema: { type: 'string', format: 'uuid' } })
   @ApiOkResponse({ schema: monitorListResponse })
   public async list(
     @CurrentAuth() auth: AuthPrincipal,
@@ -71,6 +72,12 @@ export class MonitorsController {
 
   @Get(':id/checks')
   @RequireScopes('monitors:read')
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    schema: { type: 'integer', minimum: 1, maximum: 200 },
+  })
+  @ApiQuery({ name: 'cursor', required: false, schema: { type: 'string' } })
   @ApiOkResponse({ schema: checkListResponse })
   public async listChecks(
     @CurrentAuth() auth: AuthPrincipal,
