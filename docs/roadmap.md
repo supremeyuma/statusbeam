@@ -79,11 +79,18 @@ cause `connection_refused`, restarting it resolved the incident after two succes
 
 ## S5 — Real-time and public page
 
-- [ ] SSE with heartbeat, `Last-Event-ID`, backpressure
-- [ ] Cached public status API with ETag
-- [ ] Next.js public page + Playwright smoke
+- [x] SSE with heartbeat, `Last-Event-ID`, backpressure
+- [x] Cached public status API with ETag
+- [x] Next.js public page + Playwright smoke
 
-**Gate evidence:** _pending_
+**Gate evidence:** 120 API tests green. SSE suites cover the snapshot frame, Redis-published
+incident events, `Last-Event-ID` replay (only events after the cursor), and a 200ms test
+heartbeat. Public API suites cover ETag/304, the 10s Redis cache and refresh after deletion,
+90-day rollup bars, rate limiting (429 after 60/min), and a no-leak assertion on the
+allowlisted JSON. Live compose check: first status request `200` with
+`ETag "302a2e…"` and `Cache-Control: public, max-age=10`, conditional request `304` with an
+empty body. Playwright smoke passed three consecutive runs (2.0m each): target healthy →
+page green, flip to 500 → incident opens and the banner turns red, restore → page green.
 
 ## S6 — Dashboard, load, deploy, release
 

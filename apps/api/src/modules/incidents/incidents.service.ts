@@ -19,6 +19,7 @@ import type { Database } from '../../db/client';
 import { incidentUpdates, incidents, monitors } from '../../db/schema';
 import type { Incident as IncidentRow } from '../../db/schema';
 import { NotificationsService } from '../notifications/notifications.service';
+import { StatusEventsService } from '../status/status-events.service';
 import { ProjectsService } from '../projects/projects.service';
 import { assertTransition } from './state-machine';
 import { toIncidentResponse } from './evaluator.service';
@@ -40,6 +41,7 @@ export class IncidentsService {
     @Inject(DATABASE) private readonly db: Database,
     private readonly projects: ProjectsService,
     private readonly notifications: NotificationsService,
+    private readonly statusEvents: StatusEventsService,
   ) {}
 
   public async listForProject(auth: AuthPrincipal, projectId: string): Promise<IncidentResponse[]> {
@@ -55,7 +57,7 @@ export class IncidentsService {
   }
 
   public async get(auth: AuthPrincipal, id: string): Promise<IncidentDetailResponse> {
-    const incident = await this.findAccessible(auth, id);
+    const { incident } = await this.findAccessible(auth, id);
     const updates = await this.db
       .select()
       .from(incidentUpdates)
@@ -73,7 +75,7 @@ export class IncidentsService {
     id: string,
     input: IncidentUpdateInput,
   ): Promise<IncidentUpdateResponse> {
-    const incident = await this.findAccessible(auth, id);
+    const { incident, monitor } = await this.findAccessible(auth, id);
     assertTransition(incident.status, input.status);
 
     const actor = auth.kind === 'user' ? `user:${auth.userId}` : `api-key:${auth.apiKeyId}`;
@@ -111,10 +113,20 @@ export class IncidentsService {
     });
 
     await this.notifications.enqueueForUpdate(update);
+    await this.statusEvents.publish(monitor.projectId, 'incident', {
+      incidentId: incident.id,
+      monitorId: monitor.id,
+      status: update.status,
+      message: update.message,
+      occurredAt: update.createdAt.toISOString(),
+    });
     return toUpdateResponse(update);
   }
 
-  private async findAccessible(auth: AuthPrincipal, id: string): Promise<IncidentRow> {
+  private async findAccessible(
+    auth: AuthPrincipal,
+    id: string,
+  ): Promise<{ incident: IncidentRow; monitor: typeof monitors.$inferSelect }> {
     const rows = await this.db.select().from(incidents).where(eq(incidents.id, id)).limit(1);
     const incident = rows[0];
     if (!incident) {
@@ -138,6 +150,6 @@ export class IncidentsService {
       await this.projects.assertAccess(auth, monitor.projectId);
     }
 
-    return incident;
+    return { incident, monitor };
   }
 }

@@ -10,7 +10,9 @@
             "description": ""
           }
         },
-        "tags": ["App"]
+        "tags": [
+          "App"
+        ]
       }
     },
     "/metrics": {
@@ -22,7 +24,9 @@
             "description": ""
           }
         },
-        "tags": ["Metrics"]
+        "tags": [
+          "Metrics"
+        ]
       }
     },
     "/healthz": {
@@ -34,7 +38,9 @@
             "description": ""
           }
         },
-        "tags": ["Health"]
+        "tags": [
+          "Health"
+        ]
       }
     },
     "/readyz": {
@@ -46,7 +52,9 @@
             "description": ""
           }
         },
-        "tags": ["Health"]
+        "tags": [
+          "Health"
+        ]
       }
     },
     "/v1/projects/{projectId}/incidents": {
@@ -85,19 +93,37 @@
                       },
                       "status": {
                         "type": "string",
-                        "enum": ["investigating", "identified", "monitoring", "resolved"]
+                        "enum": [
+                          "investigating",
+                          "identified",
+                          "monitoring",
+                          "resolved"
+                        ]
                       },
                       "startedAt": {
                         "type": "string"
                       },
                       "resolvedAt": {
-                        "type": ["string", "null"]
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "cause": {
-                        "type": ["string", "null"]
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       }
                     },
-                    "required": ["id", "monitorId", "status", "startedAt", "resolvedAt", "cause"],
+                    "required": [
+                      "id",
+                      "monitorId",
+                      "status",
+                      "startedAt",
+                      "resolvedAt",
+                      "cause"
+                    ],
                     "additionalProperties": false
                   }
                 }
@@ -105,7 +131,9 @@
             }
           }
         },
-        "tags": ["incidents"]
+        "tags": [
+          "incidents"
+        ]
       }
     },
     "/v1/incidents/{id}": {
@@ -142,16 +170,27 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": ["investigating", "identified", "monitoring", "resolved"]
+                      "enum": [
+                        "investigating",
+                        "identified",
+                        "monitoring",
+                        "resolved"
+                      ]
                     },
                     "startedAt": {
                       "type": "string"
                     },
                     "resolvedAt": {
-                      "type": ["string", "null"]
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "cause": {
-                      "type": ["string", "null"]
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "updates": {
                       "type": "array",
@@ -170,7 +209,12 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": ["investigating", "identified", "monitoring", "resolved"]
+                            "enum": [
+                              "investigating",
+                              "identified",
+                              "monitoring",
+                              "resolved"
+                            ]
                           },
                           "message": {
                             "type": "string"
@@ -182,7 +226,14 @@
                             "type": "string"
                           }
                         },
-                        "required": ["id", "incidentId", "status", "message", "actor", "createdAt"],
+                        "required": [
+                          "id",
+                          "incidentId",
+                          "status",
+                          "message",
+                          "actor",
+                          "createdAt"
+                        ],
                         "additionalProperties": false
                       }
                     }
@@ -202,7 +253,9 @@
             }
           }
         },
-        "tags": ["incidents"]
+        "tags": [
+          "incidents"
+        ]
       }
     },
     "/v1/incidents/{id}/updates": {
@@ -228,7 +281,12 @@
                 "properties": {
                   "status": {
                     "type": "string",
-                    "enum": ["investigating", "identified", "monitoring", "resolved"]
+                    "enum": [
+                      "investigating",
+                      "identified",
+                      "monitoring",
+                      "resolved"
+                    ]
                   },
                   "message": {
                     "type": "string",
@@ -236,7 +294,10 @@
                     "maxLength": 2000
                   }
                 },
-                "required": ["status", "message"]
+                "required": [
+                  "status",
+                  "message"
+                ]
               }
             }
           }
@@ -262,7 +323,12 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": ["investigating", "identified", "monitoring", "resolved"]
+                      "enum": [
+                        "investigating",
+                        "identified",
+                        "monitoring",
+                        "resolved"
+                      ]
                     },
                     "message": {
                       "type": "string"
@@ -274,14 +340,23 @@
                       "type": "string"
                     }
                   },
-                  "required": ["id", "incidentId", "status", "message", "actor", "createdAt"],
+                  "required": [
+                    "id",
+                    "incidentId",
+                    "status",
+                    "message",
+                    "actor",
+                    "createdAt"
+                  ],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": ["incidents"]
+        "tags": [
+          "incidents"
+        ]
       }
     },
     "/v1/projects": {
@@ -306,7 +381,9 @@
                     "type": "boolean"
                   }
                 },
-                "required": ["name"]
+                "required": [
+                  "name"
+                ]
               }
             }
           }
@@ -338,14 +415,22 @@
                       "type": "string"
                     }
                   },
-                  "required": ["id", "name", "slug", "public", "createdAt"],
+                  "required": [
+                    "id",
+                    "name",
+                    "slug",
+                    "public",
+                    "createdAt"
+                  ],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": ["projects"]
+        "tags": [
+          "projects"
+        ]
       },
       "get": {
         "operationId": "ProjectsController_list",
@@ -379,7 +464,13 @@
                         "type": "string"
                       }
                     },
-                    "required": ["id", "name", "slug", "public", "createdAt"],
+                    "required": [
+                      "id",
+                      "name",
+                      "slug",
+                      "public",
+                      "createdAt"
+                    ],
                     "additionalProperties": false
                   }
                 }
@@ -387,7 +478,9 @@
             }
           }
         },
-        "tags": ["projects"]
+        "tags": [
+          "projects"
+        ]
       }
     },
     "/v1/projects/{id}": {
@@ -430,14 +523,22 @@
                       "type": "string"
                     }
                   },
-                  "required": ["id", "name", "slug", "public", "createdAt"],
+                  "required": [
+                    "id",
+                    "name",
+                    "slug",
+                    "public",
+                    "createdAt"
+                  ],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": ["projects"]
+        "tags": [
+          "projects"
+        ]
       },
       "patch": {
         "operationId": "ProjectsController_update",
@@ -505,14 +606,22 @@
                       "type": "string"
                     }
                   },
-                  "required": ["id", "name", "slug", "public", "createdAt"],
+                  "required": [
+                    "id",
+                    "name",
+                    "slug",
+                    "public",
+                    "createdAt"
+                  ],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": ["projects"]
+        "tags": [
+          "projects"
+        ]
       }
     },
     "/v1/channels": {
@@ -552,14 +661,20 @@
                             "maxLength": 256
                           }
                         },
-                        "required": ["url"]
+                        "required": [
+                          "url"
+                        ]
                       },
                       "active": {
                         "default": true,
                         "type": "boolean"
                       }
                     },
-                    "required": ["projectId", "type", "config"]
+                    "required": [
+                      "projectId",
+                      "type",
+                      "config"
+                    ]
                   },
                   {
                     "type": "object",
@@ -582,14 +697,20 @@
                             "format": "uri"
                           }
                         },
-                        "required": ["webhookUrl"]
+                        "required": [
+                          "webhookUrl"
+                        ]
                       },
                       "active": {
                         "default": true,
                         "type": "boolean"
                       }
                     },
-                    "required": ["projectId", "type", "config"]
+                    "required": [
+                      "projectId",
+                      "type",
+                      "config"
+                    ]
                   },
                   {
                     "type": "object",
@@ -613,14 +734,20 @@
                             "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
                           }
                         },
-                        "required": ["to"]
+                        "required": [
+                          "to"
+                        ]
                       },
                       "active": {
                         "default": true,
                         "type": "boolean"
                       }
                     },
-                    "required": ["projectId", "type", "config"]
+                    "required": [
+                      "projectId",
+                      "type",
+                      "config"
+                    ]
                   }
                 ]
               }
@@ -648,7 +775,11 @@
                     },
                     "type": {
                       "type": "string",
-                      "enum": ["webhook", "slack", "email"]
+                      "enum": [
+                        "webhook",
+                        "slack",
+                        "email"
+                      ]
                     },
                     "config": {
                       "type": "object",
@@ -664,14 +795,23 @@
                       "type": "string"
                     }
                   },
-                  "required": ["id", "projectId", "type", "config", "active", "createdAt"],
+                  "required": [
+                    "id",
+                    "projectId",
+                    "type",
+                    "config",
+                    "active",
+                    "createdAt"
+                  ],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": ["channels"]
+        "tags": [
+          "channels"
+        ]
       },
       "get": {
         "operationId": "ChannelsController_list",
@@ -699,7 +839,11 @@
                       },
                       "type": {
                         "type": "string",
-                        "enum": ["webhook", "slack", "email"]
+                        "enum": [
+                          "webhook",
+                          "slack",
+                          "email"
+                        ]
                       },
                       "config": {
                         "type": "object",
@@ -715,7 +859,14 @@
                         "type": "string"
                       }
                     },
-                    "required": ["id", "projectId", "type", "config", "active", "createdAt"],
+                    "required": [
+                      "id",
+                      "projectId",
+                      "type",
+                      "config",
+                      "active",
+                      "createdAt"
+                    ],
                     "additionalProperties": false
                   }
                 }
@@ -723,7 +874,9 @@
             }
           }
         },
-        "tags": ["channels"]
+        "tags": [
+          "channels"
+        ]
       }
     },
     "/v1/channels/{id}": {
@@ -763,7 +916,9 @@
                             "maxLength": 256
                           }
                         },
-                        "required": ["url"]
+                        "required": [
+                          "url"
+                        ]
                       },
                       {
                         "type": "object",
@@ -774,7 +929,9 @@
                             "format": "uri"
                           }
                         },
-                        "required": ["webhookUrl"]
+                        "required": [
+                          "webhookUrl"
+                        ]
                       },
                       {
                         "type": "object",
@@ -786,7 +943,9 @@
                             "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
                           }
                         },
-                        "required": ["to"]
+                        "required": [
+                          "to"
+                        ]
                       }
                     ]
                   },
@@ -819,7 +978,11 @@
                     },
                     "type": {
                       "type": "string",
-                      "enum": ["webhook", "slack", "email"]
+                      "enum": [
+                        "webhook",
+                        "slack",
+                        "email"
+                      ]
                     },
                     "config": {
                       "type": "object",
@@ -835,14 +998,23 @@
                       "type": "string"
                     }
                   },
-                  "required": ["id", "projectId", "type", "config", "active", "createdAt"],
+                  "required": [
+                    "id",
+                    "projectId",
+                    "type",
+                    "config",
+                    "active",
+                    "createdAt"
+                  ],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": ["channels"]
+        "tags": [
+          "channels"
+        ]
       },
       "delete": {
         "operationId": "ChannelsController_remove",
@@ -861,7 +1033,9 @@
             "description": ""
           }
         },
-        "tags": ["channels"]
+        "tags": [
+          "channels"
+        ]
       }
     },
     "/v1/notifications/dlq": {
@@ -941,7 +1115,9 @@
             }
           }
         },
-        "tags": ["notifications"]
+        "tags": [
+          "notifications"
+        ]
       }
     },
     "/v1/notifications/dlq/{id}/replay": {
@@ -970,14 +1146,18 @@
                       "type": "string"
                     }
                   },
-                  "required": ["jobId"],
+                  "required": [
+                    "jobId"
+                  ],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": ["notifications"]
+        "tags": [
+          "notifications"
+        ]
       }
     },
     "/v1/auth/register": {
@@ -1004,7 +1184,10 @@
                     "maxLength": 128
                   }
                 },
-                "required": ["email", "password"]
+                "required": [
+                  "email",
+                  "password"
+                ]
               }
             }
           }
@@ -1033,18 +1216,26 @@
                           "type": "string"
                         }
                       },
-                      "required": ["id", "email"],
+                      "required": [
+                        "id",
+                        "email"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["accessToken", "user"],
+                  "required": [
+                    "accessToken",
+                    "user"
+                  ],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": ["auth"]
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/v1/auth/login": {
@@ -1071,7 +1262,10 @@
                     "maxLength": 128
                   }
                 },
-                "required": ["email", "password"]
+                "required": [
+                  "email",
+                  "password"
+                ]
               }
             }
           }
@@ -1100,18 +1294,26 @@
                           "type": "string"
                         }
                       },
-                      "required": ["id", "email"],
+                      "required": [
+                        "id",
+                        "email"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["accessToken", "user"],
+                  "required": [
+                    "accessToken",
+                    "user"
+                  ],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": ["auth"]
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/v1/auth/refresh": {
@@ -1142,18 +1344,26 @@
                           "type": "string"
                         }
                       },
-                      "required": ["id", "email"],
+                      "required": [
+                        "id",
+                        "email"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["accessToken", "user"],
+                  "required": [
+                    "accessToken",
+                    "user"
+                  ],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": ["auth"]
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/v1/auth/logout": {
@@ -1165,7 +1375,9 @@
             "description": ""
           }
         },
-        "tags": ["auth"]
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/v1/api-keys": {
@@ -1195,11 +1407,20 @@
                     "type": "array",
                     "items": {
                       "type": "string",
-                      "enum": ["monitors:read", "monitors:write", "incidents:write", "status:read"]
+                      "enum": [
+                        "monitors:read",
+                        "monitors:write",
+                        "incidents:write",
+                        "status:read"
+                      ]
                     }
                   }
                 },
-                "required": ["projectId", "name", "scopes"]
+                "required": [
+                  "projectId",
+                  "name",
+                  "scopes"
+                ]
               }
             }
           }
@@ -1243,7 +1464,10 @@
                       }
                     },
                     "lastUsedAt": {
-                      "type": ["string", "null"]
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "createdAt": {
                       "type": "string"
@@ -1267,7 +1491,9 @@
             }
           }
         },
-        "tags": ["api-keys"]
+        "tags": [
+          "api-keys"
+        ]
       },
       "get": {
         "operationId": "ApiKeysController_list",
@@ -1313,7 +1539,10 @@
                         }
                       },
                       "lastUsedAt": {
-                        "type": ["string", "null"]
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "createdAt": {
                         "type": "string"
@@ -1338,7 +1567,9 @@
             }
           }
         },
-        "tags": ["api-keys"]
+        "tags": [
+          "api-keys"
+        ]
       }
     },
     "/v1/api-keys/{id}": {
@@ -1359,7 +1590,9 @@
             "description": ""
           }
         },
-        "tags": ["api-keys"]
+        "tags": [
+          "api-keys"
+        ]
       }
     },
     "/v1/monitors": {
@@ -1423,7 +1656,10 @@
                           "method": {
                             "default": "GET",
                             "type": "string",
-                            "enum": ["GET", "HEAD"]
+                            "enum": [
+                              "GET",
+                              "HEAD"
+                            ]
                           },
                           "headers": {
                             "type": "object",
@@ -1435,7 +1671,9 @@
                             }
                           },
                           "expectedStatus": {
-                            "default": [200],
+                            "default": [
+                              200
+                            ],
                             "minItems": 1,
                             "type": "array",
                             "items": {
@@ -1464,10 +1702,17 @@
                             "type": "boolean"
                           }
                         },
-                        "required": ["url"]
+                        "required": [
+                          "url"
+                        ]
                       }
                     },
-                    "required": ["projectId", "name", "type", "config"]
+                    "required": [
+                      "projectId",
+                      "name",
+                      "type",
+                      "config"
+                    ]
                   },
                   {
                     "type": "object",
@@ -1522,10 +1767,18 @@
                             "maximum": 65535
                           }
                         },
-                        "required": ["host", "port"]
+                        "required": [
+                          "host",
+                          "port"
+                        ]
                       }
                     },
-                    "required": ["projectId", "name", "type", "config"]
+                    "required": [
+                      "projectId",
+                      "name",
+                      "type",
+                      "config"
+                    ]
                   }
                 ]
               }
@@ -1556,7 +1809,10 @@
                     },
                     "type": {
                       "type": "string",
-                      "enum": ["http", "tcp"]
+                      "enum": [
+                        "http",
+                        "tcp"
+                      ]
                     },
                     "config": {
                       "type": "object",
@@ -1578,13 +1834,19 @@
                       "type": "boolean"
                     },
                     "nextRunAt": {
-                      "type": ["string", "null"]
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "lastStatus": {
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": ["up", "down"]
+                          "enum": [
+                            "up",
+                            "down"
+                          ]
                         },
                         {
                           "type": "null"
@@ -1592,7 +1854,10 @@
                       ]
                     },
                     "lastCheckedAt": {
-                      "type": ["string", "null"]
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "createdAt": {
                       "type": "string"
@@ -1623,7 +1888,9 @@
             }
           }
         },
-        "tags": ["monitors"]
+        "tags": [
+          "monitors"
+        ]
       },
       "get": {
         "operationId": "MonitorsController_list",
@@ -1654,7 +1921,10 @@
                       },
                       "type": {
                         "type": "string",
-                        "enum": ["http", "tcp"]
+                        "enum": [
+                          "http",
+                          "tcp"
+                        ]
                       },
                       "config": {
                         "type": "object",
@@ -1676,13 +1946,19 @@
                         "type": "boolean"
                       },
                       "nextRunAt": {
-                        "type": ["string", "null"]
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "lastStatus": {
                         "anyOf": [
                           {
                             "type": "string",
-                            "enum": ["up", "down"]
+                            "enum": [
+                              "up",
+                              "down"
+                            ]
                           },
                           {
                             "type": "null"
@@ -1690,7 +1966,10 @@
                         ]
                       },
                       "lastCheckedAt": {
-                        "type": ["string", "null"]
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "createdAt": {
                         "type": "string"
@@ -1722,7 +2001,9 @@
             }
           }
         },
-        "tags": ["monitors"]
+        "tags": [
+          "monitors"
+        ]
       }
     },
     "/v1/monitors/{id}/checks": {
@@ -1765,16 +2046,25 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": ["up", "down"]
+                            "enum": [
+                              "up",
+                              "down"
+                            ]
                           },
                           "latencyMs": {
                             "type": "number"
                           },
                           "statusCode": {
-                            "type": ["number", "null"]
+                            "type": [
+                              "number",
+                              "null"
+                            ]
                           },
                           "error": {
-                            "type": ["string", "null"]
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "checkedAt": {
                             "type": "string"
@@ -1794,17 +2084,25 @@
                       }
                     },
                     "nextCursor": {
-                      "type": ["string", "null"]
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     }
                   },
-                  "required": ["items", "nextCursor"],
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ],
                   "additionalProperties": false
                 }
               }
             }
           }
         },
-        "tags": ["monitors"]
+        "tags": [
+          "monitors"
+        ]
       }
     },
     "/v1/monitors/{id}": {
@@ -1844,7 +2142,10 @@
                     },
                     "type": {
                       "type": "string",
-                      "enum": ["http", "tcp"]
+                      "enum": [
+                        "http",
+                        "tcp"
+                      ]
                     },
                     "config": {
                       "type": "object",
@@ -1866,13 +2167,19 @@
                       "type": "boolean"
                     },
                     "nextRunAt": {
-                      "type": ["string", "null"]
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "lastStatus": {
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": ["up", "down"]
+                          "enum": [
+                            "up",
+                            "down"
+                          ]
                         },
                         {
                           "type": "null"
@@ -1880,7 +2187,10 @@
                       ]
                     },
                     "lastCheckedAt": {
-                      "type": ["string", "null"]
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "createdAt": {
                       "type": "string"
@@ -1911,7 +2221,9 @@
             }
           }
         },
-        "tags": ["monitors"]
+        "tags": [
+          "monitors"
+        ]
       },
       "patch": {
         "operationId": "MonitorsController_update",
@@ -1976,7 +2288,10 @@
                               "method": {
                                 "default": "GET",
                                 "type": "string",
-                                "enum": ["GET", "HEAD"]
+                                "enum": [
+                                  "GET",
+                                  "HEAD"
+                                ]
                               },
                               "headers": {
                                 "type": "object",
@@ -1988,7 +2303,9 @@
                                 }
                               },
                               "expectedStatus": {
-                                "default": [200],
+                                "default": [
+                                  200
+                                ],
                                 "minItems": 1,
                                 "type": "array",
                                 "items": {
@@ -2017,10 +2334,15 @@
                                 "type": "boolean"
                               }
                             },
-                            "required": ["url"]
+                            "required": [
+                              "url"
+                            ]
                           }
                         },
-                        "required": ["type", "config"]
+                        "required": [
+                          "type",
+                          "config"
+                        ]
                       },
                       {
                         "type": "object",
@@ -2043,10 +2365,16 @@
                                 "maximum": 65535
                               }
                             },
-                            "required": ["host", "port"]
+                            "required": [
+                              "host",
+                              "port"
+                            ]
                           }
                         },
-                        "required": ["type", "config"]
+                        "required": [
+                          "type",
+                          "config"
+                        ]
                       }
                     ]
                   }
@@ -2079,7 +2407,10 @@
                     },
                     "type": {
                       "type": "string",
-                      "enum": ["http", "tcp"]
+                      "enum": [
+                        "http",
+                        "tcp"
+                      ]
                     },
                     "config": {
                       "type": "object",
@@ -2101,13 +2432,19 @@
                       "type": "boolean"
                     },
                     "nextRunAt": {
-                      "type": ["string", "null"]
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "lastStatus": {
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": ["up", "down"]
+                          "enum": [
+                            "up",
+                            "down"
+                          ]
                         },
                         {
                           "type": "null"
@@ -2115,7 +2452,10 @@
                       ]
                     },
                     "lastCheckedAt": {
-                      "type": ["string", "null"]
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "createdAt": {
                       "type": "string"
@@ -2146,7 +2486,9 @@
             }
           }
         },
-        "tags": ["monitors"]
+        "tags": [
+          "monitors"
+        ]
       },
       "delete": {
         "operationId": "MonitorsController_remove",
@@ -2165,7 +2507,230 @@
             "description": ""
           }
         },
-        "tags": ["monitors"]
+        "tags": [
+          "monitors"
+        ]
+      }
+    },
+    "/v1/projects/{slug}/status": {
+      "get": {
+        "operationId": "StatusController_getStatus",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "http://json-schema.org/draft-07/schema#",
+                  "type": "object",
+                  "properties": {
+                    "project": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "slug"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "overallStatus": {
+                      "type": "string",
+                      "enum": [
+                        "up",
+                        "degraded",
+                        "down"
+                      ]
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "monitors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "http",
+                              "tcp"
+                            ]
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "up",
+                              "down",
+                              "unknown"
+                            ]
+                          },
+                          "lastCheckedAt": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "uptime90d": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "days": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "date": {
+                                  "type": "string"
+                                },
+                                "uptimePct": {
+                                  "type": [
+                                    "number",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "date",
+                                "uptimePct"
+                              ],
+                              "additionalProperties": false
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "type",
+                          "status",
+                          "lastCheckedAt",
+                          "uptime90d",
+                          "days"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "incidents": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          "monitorId": {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          "monitorName": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "investigating",
+                              "identified",
+                              "monitoring",
+                              "resolved"
+                            ]
+                          },
+                          "startedAt": {
+                            "type": "string"
+                          },
+                          "resolvedAt": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "cause": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "monitorId",
+                          "monitorName",
+                          "status",
+                          "startedAt",
+                          "resolvedAt",
+                          "cause"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "project",
+                    "overallStatus",
+                    "updatedAt",
+                    "monitors",
+                    "incidents"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "public-status"
+        ]
+      }
+    },
+    "/v1/projects/{slug}/stream": {
+      "get": {
+        "operationId": "StatusController_stream",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "public-status"
+        ]
       }
     }
   },

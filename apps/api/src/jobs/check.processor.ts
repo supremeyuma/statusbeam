@@ -8,6 +8,7 @@ import { checks, monitors } from '../db/schema';
 import { CheckerService } from '../modules/checks/checker.service';
 import { LockService } from '../modules/checks/lock.service';
 import { IncidentEvaluator } from '../modules/incidents/evaluator.service';
+import { StatusEventsService } from '../modules/status/status-events.service';
 
 export type CheckOutcome = 'checked' | 'skipped' | 'missing' | 'inactive';
 
@@ -21,6 +22,7 @@ export class CheckProcessor {
     private readonly lock: LockService,
     private readonly metrics: MetricsService,
     private readonly evaluator: IncidentEvaluator,
+    private readonly statusEvents: StatusEventsService,
   ) {}
 
   public async process(
@@ -80,6 +82,21 @@ export class CheckProcessor {
       } catch (error) {
         this.logger.error(
           `incident evaluation failed for monitor ${monitor.id}: ${
+            error instanceof Error ? error.message : String(error)
+          }`,
+        );
+      }
+
+      try {
+        await this.statusEvents.publish(monitor.projectId, 'check', {
+          monitorId: monitor.id,
+          status: result.ok ? 'up' : 'down',
+          latencyMs: result.latencyMs,
+          checkedAt: now.toISOString(),
+        });
+      } catch (error) {
+        this.logger.warn(
+          `failed to publish check event for monitor ${monitor.id}: ${
             error instanceof Error ? error.message : String(error)
           }`,
         );

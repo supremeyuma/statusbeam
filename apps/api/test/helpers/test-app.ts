@@ -1,5 +1,6 @@
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
+import Redis from 'ioredis';
 import type { INestApplication } from '@nestjs/common';
 import type { Server } from 'node:http';
 
@@ -30,10 +31,20 @@ export async function resetDatabase(): Promise<void> {
 
   await runMigrations(databaseUrl);
   const pool = createPool(databaseUrl);
+  const redisUrl = process.env.REDIS_URL;
   try {
     await pool.query(`TRUNCATE TABLE ${TABLES.join(', ')} RESTART IDENTITY CASCADE`);
   } finally {
     await pool.end();
+  }
+
+  if (redisUrl) {
+    const redis = new Redis(redisUrl, { maxRetriesPerRequest: 1 });
+    try {
+      await redis.flushdb();
+    } finally {
+      await redis.quit();
+    }
   }
 }
 

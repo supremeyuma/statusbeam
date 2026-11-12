@@ -19,6 +19,7 @@ import { MetricsModule } from './modules/metrics/metrics.module';
 import { MonitorsModule } from './modules/monitors/monitors.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { ProjectsModule } from './modules/projects/projects.module';
+import { StatusModule } from './modules/status/status.module';
 import { RedisModule } from './redis/redis.module';
 
 @Module({
@@ -39,6 +40,7 @@ import { RedisModule } from './redis/redis.module';
     MonitorsModule,
     NotificationsModule,
     IncidentsModule,
+    StatusModule,
   ],
   controllers: [AppController],
   providers: [{ provide: APP_FILTER, useClass: AllExceptionsFilter }],
