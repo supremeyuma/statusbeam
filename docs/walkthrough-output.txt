@@ -1,0 +1,55 @@
+== 1. compose up ==
+
+ Image statusbeam-api Built
+ Container statusbeam-postgres-1 Running
+ Container statusbeam-redis-1 Running
+ Container statusbeam-api-1 Recreate
+ Container statusbeam-api-1 Recreated
+ Container statusbeam-postgres-1 Waiting
+ Container statusbeam-redis-1 Waiting
+ Container statusbeam-postgres-1 Healthy
+ Container statusbeam-redis-1 Healthy
+ Container statusbeam-api-1 Starting
+ Container statusbeam-api-1 Started
+readyz 200
+== 2. target + sink ==
+== 3. register, project, monitor ==
+project=walkthrough-1794516464 monitor=4dc49c8f-fb58-4e30-aa38-ed723e5c6b83
+channel=22503e5f-66bd-4a37-a7a8-0d7e025a594f secretRedacted=True
+== 4. wait for two green checks ==
+checks=2 first=up
+== 5. SSE snapshot ==
+snapshot received
+== 6. stop target, wait for incident ==
+incident=798479a0-ec1c-4298-8d03-5a139b749167 status=investigating cause=connection_refused: fetch failed
+webhook deliveries=3 signed=True
+== 7. restart target, wait for resolve ==
+incident resolved=2026-11-12T20:50:14.883Z
+== 8. invalid transition returns 409 ==
+409 allowedTransitions=
+== 9. public API ETag / 304 ==
+first=200 etag="110442d08f43e6f64794e45358a9d8a57ece42ab83467a0b01bc08b8c4b61d73" cache=public, max-age=10
+second=304 bodyLength=0
+== 10. read-only API key cannot write ==
+403 as expected
+== 11. metrics ==
+statusbeam_check_duration_seconds=True
+statusbeam_scheduler_lag_seconds=True
+statusbeam_notifications_sent_total=True
+statusbeam_sse_connections=True
+== 12. rollup backfill ==
+$ pnpm --filter @statusbeam/api rollups:backfill -- --days 1
+$ ts-node --transpile-only scripts/rollups-backfill.ts -- --days 1
+Backfilled 24 hours, 2 monitor-hour buckets
+rolled|raw=1|1
+== 13. redis outage -> readyz 503 ==
+ Container statusbeam-redis-1 Stopping
+ Container statusbeam-redis-1 Stopped
+readyz ServiceUnavailable
+ Container statusbeam-redis-1 Starting
+ Container statusbeam-redis-1 Started
+readyz 200 after redis restart
+== 14. Playwright ==
+Run separately: pnpm --filter @statusbeam/web exec playwright test (3x green recorded in docs/roadmap.md)
+== cleanup ==
+walkthrough complete
