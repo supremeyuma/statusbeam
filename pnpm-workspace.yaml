@@ -4,6 +4,7 @@ packages:
 
 allowBuilds:
   '@swc/core': true
+  '@scarf/scarf': false
   argon2: true
   esbuild: true
   sharp: true

@@ -4,6 +4,7 @@
     "module": "CommonJS",
     "moduleResolution": "node",
     "verbatimModuleSyntax": false,
+    "isolatedModules": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "outDir": "./dist",
