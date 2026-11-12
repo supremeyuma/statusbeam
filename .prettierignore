@@ -8,5 +8,7 @@ playwright-report/
 test-results/
 load/results/
 docs/
+packages/contracts/openapi.json
+packages/contracts/src/openapi.d.ts
 pnpm-lock.yaml
 *.tsbuildinfo
