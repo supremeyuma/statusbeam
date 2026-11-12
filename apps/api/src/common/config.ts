@@ -38,6 +38,7 @@ const configSchema = z.object({
     .enum(['true', 'false'])
     .default('true')
     .transform((value) => value === 'true'),
+  SSE_HEARTBEAT_MS: z.coerce.number().int().min(50).max(120_000).default(15_000),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
 });
 
@@ -60,6 +61,7 @@ export interface AppConfig {
   checkRetentionDays: number;
   rollupRetentionDays: number;
   jobsEnabled: boolean;
+  sseHeartbeatMs: number;
   logLevel: 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'silent';
 }
 
@@ -98,6 +100,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     checkRetentionDays: value.CHECK_RETENTION_DAYS,
     rollupRetentionDays: value.ROLLUP_RETENTION_DAYS,
     jobsEnabled: value.JOBS_ENABLED,
+    sseHeartbeatMs: value.SSE_HEARTBEAT_MS,
     logLevel: value.LOG_LEVEL,
   };
 }

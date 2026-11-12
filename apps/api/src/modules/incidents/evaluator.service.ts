@@ -7,6 +7,7 @@ import type { Database } from '../../db/client';
 import { checks, incidents, incidentUpdates, monitors } from '../../db/schema';
 import type { Incident as IncidentRow } from '../../db/schema';
 import { NotificationsService } from '../notifications/notifications.service';
+import { StatusEventsService } from '../status/status-events.service';
 
 const RECENT_WINDOW = 20;
 const RESOLVE_AFTER_SUCCESSES = 2;
@@ -34,6 +35,7 @@ export class IncidentEvaluator {
   public constructor(
     @Inject(DATABASE) private readonly db: Database,
     private readonly notifications: NotificationsService,
+    private readonly statusEvents: StatusEventsService,
   ) {}
 
   /**
@@ -96,6 +98,13 @@ export class IncidentEvaluator {
 
       await this.appendUpdate(incident.id, 'investigating', `Incident opened: ${cause}`);
       this.logger.warn(`incident ${incident.id} opened for monitor ${monitorId}`);
+      await this.statusEvents.publish(monitor.projectId, 'incident', {
+        incidentId: incident.id,
+        monitorId,
+        status: 'investigating',
+        cause,
+        occurredAt: incident.startedAt.toISOString(),
+      });
       return { opened: toIncidentResponse(incident), resolved: null };
     }
 
@@ -117,6 +126,13 @@ export class IncidentEvaluator {
         `Recovered after ${consecutiveSuccesses} consecutive successful checks.`,
       );
       this.logger.log(`incident ${updated.id} resolved for monitor ${monitorId}`);
+      await this.statusEvents.publish(monitor.projectId, 'incident', {
+        incidentId: updated.id,
+        monitorId,
+        status: 'resolved',
+        cause: updated.cause,
+        occurredAt: now.toISOString(),
+      });
       return { opened: null, resolved: toIncidentResponse(updated) };
     }
 

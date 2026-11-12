@@ -12,6 +12,5 @@ export function buildOpenApiDocument(app: INestApplication): OpenAPIObject {
     .addBearerAuth()
     .addApiKey({ type: 'apiKey', in: 'header', name: 'X-API-Key' }, 'api-key')
     .build();
-
   return SwaggerModule.createDocument(app, config);
 }

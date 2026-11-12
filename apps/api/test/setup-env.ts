@@ -1,10 +1,11 @@
 process.env.NODE_ENV = 'test';
 process.env.LOG_LEVEL = 'silent';
 process.env.DATABASE_URL ??= 'postgres://statusbeam:statusbeam@127.0.0.1:5433/statusbeam';
-process.env.REDIS_URL ??= 'redis://127.0.0.1:6380';
+process.env.REDIS_URL ??= 'redis://127.0.0.1:6380/15';
 process.env.JWT_SECRET = 'test-jwt-secret-value-with-at-least-32-chars';
 process.env.JWT_REFRESH_SECRET = 'test-refresh-secret-value-with-at-least-32-chars';
 process.env.ENCRYPTION_KEY = 'a'.repeat(64);
 process.env.ALLOW_PRIVATE_TARGETS = 'true';
 process.env.CHECK_TIMEOUT_MS = '2000';
 process.env.JOBS_ENABLED = 'false';
+process.env.SSE_HEARTBEAT_MS = '200';

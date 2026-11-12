@@ -32,6 +32,7 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
   app.useLogger(app.get(Logger));
   configureApp(app);
+  app.enableCors({ origin: config.publicBaseUrl });
   app.enableShutdownHooks();
 
   const document = buildOpenApiDocument(app);
