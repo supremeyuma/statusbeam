@@ -1,5 +1,6 @@
 export * from './api-keys';
 export * from './auth';
+export * from './checks';
 export * from './client';
 export * from './common';
 export * from './monitors';
