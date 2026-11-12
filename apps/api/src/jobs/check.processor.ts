@@ -7,6 +7,7 @@ import { MetricsService } from '../common/metrics.service';
 import { checks, monitors } from '../db/schema';
 import { CheckerService } from '../modules/checks/checker.service';
 import { LockService } from '../modules/checks/lock.service';
+import { IncidentEvaluator } from '../modules/incidents/evaluator.service';
 
 export type CheckOutcome = 'checked' | 'skipped' | 'missing' | 'inactive';
 
@@ -19,6 +20,7 @@ export class CheckProcessor {
     private readonly checker: CheckerService,
     private readonly lock: LockService,
     private readonly metrics: MetricsService,
+    private readonly evaluator: IncidentEvaluator,
   ) {}
 
   public async process(
@@ -72,6 +74,16 @@ export class CheckProcessor {
         (performance.now() - started) / 1000,
       );
       this.metrics.schedulerLag.observe(Math.max(0, (Date.now() - jobTimestamp) / 1000));
+
+      try {
+        await this.evaluator.evaluate(monitor.id);
+      } catch (error) {
+        this.logger.error(
+          `incident evaluation failed for monitor ${monitor.id}: ${
+            error instanceof Error ? error.message : String(error)
+          }`,
+        );
+      }
 
       return 'checked';
     } catch (error) {

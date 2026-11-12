@@ -238,6 +238,7 @@ export type NewIncidentUpdate = typeof incidentUpdates.$inferInsert;
 export type Channel = typeof channels.$inferSelect;
 export type ApiKey = typeof apiKeys.$inferSelect;
 export type RefreshToken = typeof refreshTokens.$inferSelect;
+export type NotificationFailure = typeof notificationFailures.$inferSelect;
 export type MonitorType = (typeof monitorTypeEnum.enumValues)[number];
 export type CheckStatus = (typeof checkStatusEnum.enumValues)[number];
 export type IncidentStatus = (typeof incidentStatusEnum.enumValues)[number];

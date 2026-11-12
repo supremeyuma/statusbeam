@@ -7,6 +7,7 @@ import type { AppConfig } from '../common/config';
 import { CheckProcessor } from './check.processor';
 import { CheckerService } from '../modules/checks/checker.service';
 import { LockService } from '../modules/checks/lock.service';
+import { IncidentsModule } from '../modules/incidents/incidents.module';
 import { JobsRuntimeService } from './jobs-runtime.service';
 import {
   CHECKS_QUEUE,
@@ -26,6 +27,7 @@ export function createQueue(name: string, redisUrl: string): Queue {
 
 @Global()
 @Module({
+  imports: [IncidentsModule],
   providers: [
     {
       provide: CHECKS_QUEUE,

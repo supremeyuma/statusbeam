@@ -24,6 +24,7 @@ const configSchema = z.object({
     (value) => (value === '' ? undefined : value),
     z.string().optional(),
   ),
+  SMTP_URL: z.preprocess((value) => (value === '' ? undefined : value), z.string().optional()),
   SLACK_WEBHOOK_URL: z.preprocess(
     (value) => (value === '' ? undefined : value),
     z.string().url().optional(),
@@ -51,6 +52,7 @@ export interface AppConfig {
   jwtRefreshSecret: string;
   encryptionKey: string;
   resendApiKey: string | undefined;
+  smtpUrl: string | undefined;
   slackWebhookUrl: string | undefined;
   mailFrom: string;
   allowPrivateTargets: boolean;
@@ -88,6 +90,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     jwtRefreshSecret: value.JWT_REFRESH_SECRET,
     encryptionKey: value.ENCRYPTION_KEY,
     resendApiKey: value.RESEND_API_KEY,
+    smtpUrl: value.SMTP_URL,
     slackWebhookUrl: value.SLACK_WEBHOOK_URL,
     mailFrom: value.MAIL_FROM,
     allowPrivateTargets: value.ALLOW_PRIVATE_TARGETS,

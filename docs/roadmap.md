@@ -63,11 +63,19 @@ history and `sum(up+down)=1` matched raw checks `=1` for the completed hours.
 
 ## S4 — Incidents and notifications
 
-- [ ] Explicit state machine with 409 on invalid transitions
-- [ ] Hysteresis: open after N failures, resolve after 2 successes
-- [ ] Webhook/Slack/email adapters, retries, DLQ and replay
+- [x] Explicit state machine with 409 on invalid transitions
+- [x] Hysteresis: open after N failures, resolve after 2 successes
+- [x] Webhook/Slack/email adapters, retries, DLQ and replay
 
-**Gate evidence:** _pending_
+**Gate evidence:** 111 API tests green. State-machine matrix covers every allowed and
+rejected pair; the API returns 409 with `allowedTransitions`. The flapping sequence
+down,down,up,down,down,up with `retries=3` opens zero incidents; three consecutive failures
+open exactly one; two successes resolve it with system updates `investigating,resolved`.
+Adapters are tested against a local sink (HMAC signature verified, 400 permanent, 500
+retryable, timeout, Slack blocks, email skipped without a provider). DLQ test moves a
+permanent webhook failure into `notification-dlq`, records it, and replays with the same
+jobId without duplicate delivery. Compose E2E: stopping the target opened an incident with
+cause `connection_refused`, restarting it resolved the incident after two successes.
 
 ## S5 — Real-time and public page
 
