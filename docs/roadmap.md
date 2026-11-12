@@ -34,11 +34,16 @@ postgres, redis, and api healthy. Observed: `/healthz` -> `{"status":"ok"}`; `/r
 
 ## S2 — Auth, projects, API keys, monitor CRUD
 
-- [ ] Register/login/refresh rotation, JWT and API-key guards
-- [ ] Projects and monitor CRUD with zod discriminated unions
-- [ ] SSRF guard and OpenAPI + typed client
+- [x] Register/login/refresh rotation, JWT and API-key guards
+- [x] Projects and monitor CRUD with zod discriminated unions
+- [x] SSRF guard and OpenAPI + typed client
 
-**Gate evidence:** _pending_
+**Gate evidence:** 65 API tests green, including refresh-token rotation and family
+revocation on reuse, the API-key scope matrix (read-only key cannot write, revoked key 401),
+ownership hiding (404), monitor validation matrix, and SSRF rejection for loopback targets
+when `ALLOW_PRIVATE_TARGETS=false`. `pnpm contracts:gen` is byte-identical across reruns
+(OpenAPI: 14 paths, generated `packages/contracts/src/openapi.d.ts`), and the compose image
+serves `/openapi.json`, `POST /v1/auth/register`, and `GET /v1/projects` with a JWT.
 
 ## S3 — Checker, scheduler, rollups
 
