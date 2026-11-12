@@ -1,0 +1,32 @@
+{
+  "name": "statusbeam",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Uptime monitoring, incident lifecycle, and a public status page with live updates",
+  "license": "MIT",
+  "packageManager": "pnpm@12.18.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "contracts:gen": "pnpm --filter @statusbeam/contracts gen",
+    "dev:api": "pnpm --filter @statusbeam/api dev",
+    "dev:web": "pnpm --filter @statusbeam/web dev",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^10.0.1",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.20.0"
+  }
+}

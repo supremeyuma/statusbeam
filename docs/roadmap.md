@@ -10,12 +10,14 @@ verified, not "written".
 - [x] MIT license, `.gitignore`, `.gitattributes`, `.editorconfig`
 - [x] Execution plan, spec, master plan, and agent instructions committed
 - [x] Private GitHub remote created and pushed
-- [ ] Tooling: pnpm workspace, TypeScript strict config, ESLint/Prettier, NestJS and Next.js
+- [x] Tooling: pnpm workspace, TypeScript strict config, ESLint/Prettier, NestJS and Next.js
       apps, `packages/contracts`, initial CI skeleton
-- [ ] Initial package install and empty `pnpm build` / `pnpm typecheck` green
+- [x] Initial package install and empty `pnpm build` / `pnpm typecheck` green
 
-**Evidence:** repository bootstrapped; remote expected at
-<https://github.com/supremeyuma/statusbeam>. Tooling evidence pending.
+**Evidence:** repository bootstrapped; remote at
+<https://github.com/supremeyuma/statusbeam>. Tooling gate: `scripts/verify.ps1` exits 0
+(format, lint, typecheck, 1 API test, contracts + API + Next production build). Node
+v22.19.0, pnpm 12.18.0, TypeScript 5.9.3, NestJS 11, Next.js 15.5.29.
 
 ## S1 — Skeleton, config, health, compose, CI (M0)
 
